@@ -25,17 +25,25 @@ fn find(input: &str) -> (Option<u32>, Option<u32>) {
   let mut first_index: Option<u32> = None;
   let mut last_index: Option<u32> = None;
 
+  let reversed: String = input.chars().rev().collect::<String>();
   for num_word in NUMBER_WORDS {
     if let Some(_index) = input.find(num_word) {
       if first.is_none() || first_index > Some(_index as u32) {
         first_index = Some(_index as u32);
         first = index_word(num_word);
       }
-      if last.is_none() || last_index < Some(_index as u32) { 
+    }
+    let num_word_rev = num_word.chars().rev().collect::<String>();
+    if let Some(_index) = reversed.find(&num_word_rev) {
+      if last.is_none() || last_index > Some(_index as u32) {
         last_index = Some(_index as u32);
         last = index_word(num_word);
       }
     }
+  }
+
+  if !last_index.is_none() {
+    last_index = Some((input.len() as u32) - last_index.unwrap() - 1);
   }
   
   let mut index = 0;
@@ -44,8 +52,10 @@ fn find(input: &str) -> (Option<u32>, Option<u32>) {
       let digit = c.to_digit(10).unwrap();
       if first.is_none() || (!first_index.is_none() && index < first_index.unwrap()) {
         first = Some(digit);
+        first_index = Some(index);
       }
       if last_index.is_none() || (!last_index.is_none() && index > last_index.unwrap()) {
+        last_index = Some(index);
         last = Some(digit);
       }
     }
@@ -77,6 +87,7 @@ fn main() {
       (Some(first), Some(last)) => {
         let string = format!("{}{}", first, last);
         sum += string.parse::<u32>().unwrap();
+        println!("{} equals {}", element, string);
       }
       _ => {
         println!("Nothing to do: {}", element);
