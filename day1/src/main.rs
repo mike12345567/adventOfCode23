@@ -45,7 +45,7 @@ fn find(input: &str) -> (Option<u32>, Option<u32>) {
   if !last_index.is_none() {
     last_index = Some((input.len() as u32) - last_index.unwrap() - 1);
   }
-  
+
   let mut index = 0;
   for c in input.chars() {
     if c.is_numeric() {
