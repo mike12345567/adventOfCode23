@@ -26,15 +26,20 @@ fn check_pattern(input: &str, re: &Regex) -> Option<u32> {
   return None;
 }
 
-pub fn main() -> io::Result<()> {
-  let blue_max = 14;
-  let red_max = 12;
-  let green_max = 13;
+fn read_file() -> io::Result<Vec<String>> {
   let file_path = "./input.txt";
   let mut file = File::open(file_path)?;
   let mut contents = String::new();
   file.read_to_string(&mut contents)?;
-  let lines: Vec<&str> = contents.lines().collect();
+  let lines: Vec<String> = contents.lines().map(String::from).collect();
+  Ok(lines)
+}
+
+pub fn main() -> io::Result<()> {
+  let blue_max = 14;
+  let red_max = 12;
+  let green_max = 13;
+  let lines = read_file()?;
   let mut sum: u32 = 0;
   let mut sum_powers: u32 = 0;
   let mut valid_games: u32 = 0;
