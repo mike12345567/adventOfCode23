@@ -1,9 +1,7 @@
 const fs = require("fs")
 const { Worker } = require("worker_threads")
 
-
 const maps = {}
-
 const PART_TWO = true
 
 async function run() {
