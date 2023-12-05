@@ -38,7 +38,7 @@ async function run() {
       maps[layer].push({ name, start: src, max: src + range, modifier: dest - src })
     }
   }
-  let lowest = 66405002
+  let lowest = Number.MAX_SAFE_INTEGER
   let promises = []
   for (let { start, end } of seedNumbers) {
     console.log(`Starting seed: ${start} - ending: ${end}`)
