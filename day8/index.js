@@ -8,12 +8,12 @@ function lcm(inputs) {
   function gcd(a, b) {
     return b === 0 ? a : gcd(b, a % b)
   }
-  function lcm(a, b) {
+  function innerLcm(a, b) {
     return (a * b) / gcd(a, b)
   }
   let result = inputs[0]
   for (let i = 1; i < inputs.length; i++) {
-    result = lcm(result, inputs[i])
+    result = innerLcm(result, inputs[i])
   }
   return result
 }
