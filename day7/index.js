@@ -1,6 +1,9 @@
 const fs = require("fs")
 
-const weakToStrong = ["2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"]
+const PART_2 = true
+const weakToStrong = PART_2 ?
+  ["J", "2", "3", "4", "5", "6", "7", "8", "9", "T", "Q", "K", "A"] :
+  ["2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"]
 
 function pairCharacters(hand) {
   const map = {}
@@ -19,11 +22,19 @@ function strength(char) {
 
 function determineRank(hand, pairs) {
   const counts = []
-  for (let count of Object.values(pairs)) {
+  let jCount = 0
+  for (let [char, count] of Object.entries(pairs)) {
+    if (PART_2 && char === "J") {
+      jCount += count
+      continue
+    }
     if (count === 1) {
       continue
     }
     counts.push(count)
+  }
+  if (PART_2 && jCount) {
+    counts[0] = jCount === 5 ? jCount : (counts[0] || 1) + jCount
   }
   counts.sort((a, b) => b - a)
   switch (counts.toString()) {
@@ -42,7 +53,6 @@ function determineRank(hand, pairs) {
     default:
       return 1
   }
-  return highest
 }
 
 function run() {
