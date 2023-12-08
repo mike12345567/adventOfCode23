@@ -87,7 +87,7 @@ function run() {
   let count = 0
   for (let ranked of sorted) {
     sum += parseInt(ranked.bid) * (count + 1)
-    console.log(count, ranked.hand, ranked.bid, sum)
+    //console.log(count, ranked.hand, ranked.bid, sum)
     count++
   }
   console.log(`The sum of bids is: ${sum}`)
