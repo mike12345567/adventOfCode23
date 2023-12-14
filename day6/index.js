@@ -6,7 +6,10 @@ function fixSpaces(str) {
 }
 
 function getNumbers(str) {
-  return str.split(" ").splice(1).map(el => parseInt(el))
+  return str
+    .split(" ")
+    .splice(1)
+    .map(el => parseInt(el))
 }
 
 function run() {

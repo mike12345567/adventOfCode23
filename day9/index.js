@@ -17,11 +17,15 @@ function run() {
   const lines = fs.readFileSync("./input.txt", "utf8").split("\n")
   let sum = 0
   for (let line of lines) {
-    let sequence = line.trim().split(" ").map(el => parseInt(el))
+    let sequence = line
+      .trim()
+      .split(" ")
+      .map(el => parseInt(el))
     if (PART_2) {
       sequence = sequence.reverse()
     }
-    let latest = getDifferences(sequence), allDifferences = [sequence, latest]
+    let latest = getDifferences(sequence),
+      allDifferences = [sequence, latest]
     do {
       latest = getDifferences(latest)
       allDifferences.push(latest)

@@ -12,13 +12,12 @@ function divide(array) {
   return parts
 }
 
-
 async function thread(lines, { part2 }) {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     const worker = new Worker("./worker", {
       workerData: { lines, part2 },
     })
-    worker.on("message", (result) => {
+    worker.on("message", result => {
       resolve(result)
     })
   })

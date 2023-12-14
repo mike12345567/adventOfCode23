@@ -19,7 +19,9 @@ function lcm(inputs) {
 }
 
 function part1Solver(instructions, map) {
-  let current = "AAA", stepCount = 0, charIdx = 0
+  let current = "AAA",
+    stepCount = 0,
+    charIdx = 0
   do {
     current = map[current][instructions.charAt(charIdx++)]
     if (charIdx >= instructions.length) {
@@ -33,7 +35,10 @@ function part1Solver(instructions, map) {
 function part2Solver(instructions, starts, map) {
   let pathCounts = []
   for (let start of starts) {
-    let found = 0, count = 0, charIdx = 0, current = start
+    let found = 0,
+      count = 0,
+      charIdx = 0,
+      current = start
     do {
       const instruction = instructions.charAt(charIdx++)
       if (charIdx >= instructions.length) {
@@ -64,7 +69,9 @@ function run() {
     const [L, R] = LR.replaceAll(REMOVE_BRACKETS_REGEX, "").split(", ")
     MAP[node] = { L, R }
   }
-  const count = !PART_2 ? part1Solver(instructions, MAP) : part2Solver(instructions, starts, MAP)
+  const count = !PART_2
+    ? part1Solver(instructions, MAP)
+    : part2Solver(instructions, starts, MAP)
   console.log(`Steps to reach end: ${count}`)
 }
 

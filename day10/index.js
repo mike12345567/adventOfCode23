@@ -12,14 +12,14 @@ const DIRECTION_TRANSFORM = {
   "1J": 2,
   "3|": 3,
   "3F": 0,
-  "37": 2,
+  37: 2,
 }
 
 const DIRECTIONS = [
   [0, 1],
   [1, 0],
   [0, -1],
-  [-1, 0]
+  [-1, 0],
 ]
 
 function run() {
@@ -74,7 +74,8 @@ function run() {
   while (!(currentX === startX && currentY === startY)) {
     fullMap[currentX][currentY] = 1
     furthest += 1
-    currentDirection = DIRECTION_TRANSFORM[`${currentDirection}${lines[currentX][currentY]}`]
+    currentDirection =
+      DIRECTION_TRANSFORM[`${currentDirection}${lines[currentX][currentY]}`]
     currentX = currentX + DIRECTIONS[currentDirection][0]
     currentY = currentY + DIRECTIONS[currentDirection][1]
   }
@@ -88,7 +89,10 @@ function run() {
 
     for (let j = 0; j < width; j++) {
       if (fullMap[i][j]) {
-        if (("|JL".includes(lines[i][j]) || (lines[i][j] === "S" && validStarts))) {
+        if (
+          "|JL".includes(lines[i][j]) ||
+          (lines[i][j] === "S" && validStarts)
+        ) {
           enclosed = !enclosed
         }
       } else {

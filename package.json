@@ -1,0 +1,14 @@
+{
+  "name": "adventOfCode23",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:mike12345567/adventOfCode23.git",
+  "author": "Michael Drury <me@michaeldrury.co.uk>",
+  "license": "MIT",
+  "dependencies": {
+    "prettier": "^3.1.1"
+  },
+  "scripts": {
+    "prettier": "prettier --write \"**/*.{js,ts,svelte}\""
+  }
+}

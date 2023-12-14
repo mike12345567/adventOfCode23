@@ -49,7 +49,12 @@ function process(puzzle, sequence) {
       if (puzzle[puzzleNo] === check || puzzle[puzzleNo] === QUESTION) {
         if (check === DOT && current === 0) {
           ans += recurse(puzzleNo + 1, seqNo, 0)
-        } else if (check === DOT && current > 0 && seqNo < sequence.length && sequence[seqNo] === current) {
+        } else if (
+          check === DOT &&
+          current > 0 &&
+          seqNo < sequence.length &&
+          sequence[seqNo] === current
+        ) {
           ans += recurse(puzzleNo + 1, seqNo + 1, 0)
         } else if (check === HASH) {
           ans += recurse(puzzleNo + 1, seqNo, current + 1)

@@ -36,7 +36,8 @@ function run() {
       }
     }
   }
-  const cardCount = lines.length + Object.values(copies).reduce((prev, el) => prev + el, 0)
+  const cardCount =
+    lines.length + Object.values(copies).reduce((prev, el) => prev + el, 0)
   console.log(`Card count is: ${cardCount}`)
   console.log(`Sum is: ${sum}`)
 }

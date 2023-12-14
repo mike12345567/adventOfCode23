@@ -26,7 +26,10 @@ function areSameLine(line1, line2, incorrect = 0) {
 }
 
 function confirm(possibleIdx, pattern, incorrect) {
-  let symmetrical = true, line1, line2, expansion = 1
+  let symmetrical = true,
+    line1,
+    line2,
+    expansion = 1
   do {
     line1 = pattern[possibleIdx + expansion]
     line2 = pattern[possibleIdx - 1 - expansion]
@@ -47,7 +50,8 @@ function check(patterns, { horizontal }) {
   const found = []
   let patternNumber = 0
   for (let pattern of patterns) {
-    let previousLine = "", lineIdx = -1
+    let previousLine = "",
+      lineIdx = -1
     let lineNumber = 0
     for (let line of pattern) {
       if (previousLine) {
@@ -87,7 +91,7 @@ function run() {
     const horizontal = {}
     for (let line of pattern) {
       for (let i = 0; i < line.length; i++) {
-        horizontal[i] = [...horizontal[i] || [], line[i]]
+        horizontal[i] = [...(horizontal[i] || []), line[i]]
       }
     }
     const finalHoriz = []
@@ -100,18 +104,22 @@ function run() {
   // check horizontal
   let patternsFound = check(horizontalPatterns, { horizontal: true })
   // check vertical
-  patternsFound = patternsFound.concat(check(verticalPatterns, { horizontal: false }))
+  patternsFound = patternsFound.concat(
+    check(verticalPatterns, { horizontal: false })
+  )
 
   // tally it all up
   let sum = 0
   patternsFound = patternsFound.sort((a, b) => a.index - b.index)
   for (let found of patternsFound) {
     console.log(`Grid: ${found.index}`)
-    console.log(`${found.horizontal ? "horizontal" : "vertical"} ${found.lineIdx}`)
+    console.log(
+      `${found.horizontal ? "horizontal" : "vertical"} ${found.lineIdx}`
+    )
     if (found.horizontal) {
       sum += found.lineIdx + 1
     } else {
-      sum += ((found.lineIdx) + 1) * 100
+      sum += (found.lineIdx + 1) * 100
     }
   }
   console.log(`The sum as requests is: ${sum}`)
