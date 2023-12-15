@@ -53,7 +53,7 @@ function score(lines) {
   return ans
 }
 
-function main() {
+function run() {
   let lines = fs.readFileSync("input.txt", "utf8").trim().split("\n")
   lines = lines.map(row => [...row])
 
@@ -82,4 +82,4 @@ function main() {
   console.log(`Part 2 final score: ${score(lines)}`)
 }
 
-main()
+run()
