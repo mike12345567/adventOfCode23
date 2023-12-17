@@ -1,5 +1,7 @@
 const fs = require("fs")
 
+const PART_2 = true
+
 const LEFT = "left",
   RIGHT = "right",
   UP = "up",
@@ -56,54 +58,76 @@ function print(maxX, maxY, energised) {
   }
 }
 
+function generateStarts(maxX, maxY) {
+  let starts = []
+  for (let x = 0; x < maxX; x++) {
+    starts.push(newBeam(x, 0, DOWN ))
+    starts.push(newBeam(x, maxY - 1, UP))
+  }
+  for (let y = 0; y < maxY; y++) {
+    starts.push(newBeam(0, y, RIGHT))
+    starts.push(newBeam(maxX - 1, y, LEFT))
+  }
+  return starts
+}
+
 function run() {
   const lines = fs.readFileSync("input.txt", "utf8").trim().split("\n")
   const map = lines.map(line => line.split(""))
   const maxX = map[0].length,
     maxY = map.length
-  const energised = new Map()
-  energised.set("x0,y0", 1)
 
   function isDead(beam) {
     return beam.x >= maxX || beam.x < 0 || beam.y >= maxY || beam.y < 0
   }
 
   const MAX_LOOP = 2000000
-  let beams = [newBeam()]
-  do {
-    for (let beam of beams) {
-      // branch is dead
-      if (isDead(beam)) {
-        continue
+
+  const starts = PART_2 ? generateStarts(maxX, maxY) : newBeam()
+  let highest = 0
+  for (let start of starts) {
+    let beams = [start]
+    const energised = new Map()
+    energised.set(`x${start.x},y${start.y}`, 1)
+    do {
+      for (let beam of beams) {
+        // branch is dead
+        if (isDead(beam)) {
+          continue
+        }
+        const char = map[beam.y][beam.x]
+        beam.direction = mirrors(beam.direction, char)
+        // check for splitters
+        if (
+          char === "|" &&
+          (beam.direction === LEFT || beam.direction === RIGHT)
+        ) {
+          beams.push(newBeam(beam.x, beam.y, UP))
+          beam.direction = DOWN
+        } else if (
+          char === "-" &&
+          (beam.direction === UP || beam.direction === DOWN)
+        ) {
+          beams.push(newBeam(beam.x, beam.y, LEFT))
+          beam.direction = RIGHT
+        } else {
+          const movement = move(beam.direction, beam.x, beam.y)
+          beam.x = movement.x
+          beam.y = movement.y
+        }
+        if (!isDead(beam)) {
+          energised.set(`x${beam.x},y${beam.y}`, 1)
+        }
       }
-      const char = map[beam.y][beam.x]
-      beam.direction = mirrors(beam.direction, char)
-      // check for splitters
-      if (
-        char === "|" &&
-        (beam.direction === LEFT || beam.direction === RIGHT)
-      ) {
-        beams.push(newBeam(beam.x, beam.y, UP))
-        beam.direction = DOWN
-      } else if (
-        char === "-" &&
-        (beam.direction === UP || beam.direction === DOWN)
-      ) {
-        beams.push(newBeam(beam.x, beam.y, LEFT))
-        beam.direction = RIGHT
-      } else {
-        const movement = move(beam.direction, beam.x, beam.y)
-        beam.x = movement.x
-        beam.y = movement.y
-      }
-      if (!isDead(beam)) {
-        energised.set(`x${beam.x},y${beam.y}`, 1)
-      }
+      beams = beams.filter(beam => !isDead(beam))
+    } while (beams.find(beam => !isDead(beam)) && beams.length < MAX_LOOP)
+    const len = [...energised].length
+    if (len > highest) {
+      //print(maxX, maxY, energised)
+      highest = len
     }
-    beams = beams.filter(beam => !isDead(beam))
-  } while (beams.find(beam => !isDead(beam)) && beams.length < MAX_LOOP)
-  print(maxX, maxY, energised)
-  console.log(`Found routes: ${[...energised].length}`)
+  }
+  console.log(`Found routes: ${highest}`)
 }
 
 run()
